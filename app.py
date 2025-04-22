@@ -48,6 +48,53 @@ def get_trending_contracts():
             "error": f"Error fetching data from Dune API: {str(e)}"
         }), 500
 
+@app.route('/api/binance-net-inflow', methods=['GET'])
+def get_binance_net_inflow():
+    """API endpoint để lấy dữ liệu Binance Net Inflow 24h từ Dune Analytics."""
+    app.logger.info("Getting Binance net inflow data from Dune Analytics")
+    
+    url = f"{DUNE_API_URL}/endpoints/gfi_research/binance-net-inflow-24h/results"
+    params = {
+        "api_key": DUNE_API_KEY
+    }
+    
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        
+        # Trả về dữ liệu nguyên bản từ Dune không xử lý gì thêm
+        return Response(response.content, mimetype='application/json')
+            
+    except requests.exceptions.RequestException as e:
+        app.logger.error(f"Error fetching Binance net inflow data from Dune API: {str(e)}")
+        return jsonify({
+            "error": f"Error fetching Binance net inflow data from Dune API: {str(e)}"
+        }), 500
+
+@app.route('/api/nft-marketplaces-overview', methods=['GET'])
+def get_nft_marketplaces_overview():
+    """API endpoint để lấy dữ liệu NFT Marketplaces Overview từ Dune Analytics."""
+    app.logger.info("Getting NFT Marketplaces Overview data from Dune Analytics")
+    
+    url = f"{DUNE_API_URL}/endpoints/gfi_research/nft-marketplaces-overview/results"
+    params = {
+        "api_key": DUNE_API_KEY
+    }
+    
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+    
+        return Response(response.content, mimetype='application/json')
+
+    except requests.exceptions.RequestException as e:
+        app.logger.error(f"Error fetching NFT Marketplaces Overview data from Dune API: {str(e)}")
+        return jsonify({
+            "error": f"Error fetching NFT Marketplaces Overview data from Dune API: {str(e)}"
+        }), 500
+
+
+
 @app.route('/api/fees/protocol/<protocol>', methods=['GET'])
 def get_protocol_fees(protocol):
     """API endpoint để lấy dữ liệu fees của một protocol cụ thể."""
@@ -875,6 +922,20 @@ def home():
                 <code>GET /api/trending/contracts</code>
                 <p>Ví dụ: <a href="/api/trending/contracts">/api/trending/contracts</a></p>
                 <p>Lấy dữ liệu thô: <a href="/api/trending/contracts?raw=true">/api/trending/contracts?raw=true</a></p>
+            </div>
+            
+            <h2>Binance Net Inflow</h2>
+            <div class="endpoint">
+                <h3>Lấy dữ liệu Binance Net Inflow 24h từ Dune Analytics:</h3>
+                <code>GET /api/binance-net-inflow</code>
+                <p>Ví dụ: <a href="/api/binance-net-inflow">/api/binance-net-inflow</a></p>
+            </div>
+
+            <h2>NFT Marketplaces Overview</h2>
+            <div class="endpoint">
+                <h3>Lấy dữ liệu NFT Marketplaces Overview từ Dune Analytics:</h3>
+                <code>GET /api/nft-marketplaces-overview</code>
+                <p>Ví dụ: <a href="/api/nft-marketplaces-overview">/api/nft-marketplaces-overview</a></p>
             </div>
             
             <h2>Protocol Fees</h2>
