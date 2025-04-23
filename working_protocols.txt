@@ -1,0 +1,474 @@
+Vader AI
+Frax
+Frax FPI
+Snake Finance
+Ethena USDe
+Stables Labs USDX
+SolvBTC
+Garden
+Allbridge Classic
+Sky Lending
+Liquity V1
+crvUSD
+Inverse Finance FiRM
+fx Protocol
+Orby Network
+Abracadabra Spell
+Angle
+Thala CDP
+Liquity V2
+QiDao
+Lybra V2
+Threshold thUSD
+Stout
+Lybra V1
+PrismaLST
+Teddy Cash
+Vesta Finance
+Fraxtal
+Gravity
+Immutable zkEVM
+Kroma
+Stargate V2
+Across
+Stargate V1
+Synapse
+Hop Protocol
+SideShift
+Firebird
+Paraswap
+Jupiter Perpetual Exchange
+Drift Trade
+GMX V2 Perps
+GMX V1
+Synthetix V3
+Derive V2
+Vertex Perps
+dYdX V3
+APX Finance
+ApeX Pro
+Gains Network
+Orderly Perps
+Fulcrom Perps
+Bluefin Perps
+MUX Perps
+Adrena Protocol
+HMX
+Perpetual Protocol
+BMX Classic Perps
+Flex Perpetuals
+Level Perps
+YFX V4
+Amped Finance
+LogX V2
+Sudo Finance
+Mummy Finance
+Pingu Exchange
+Javsphere
+Vela Exchange
+KTX Perps
+El Dorado Exchange
+UniDex Perp
+Y2K V1
+SOBAX
+Equation V3
+Equation V1
+Cryptex V2
+Xena Finance
+Mango Markets V4 Perps
+Equation V2
+Nether.Fi
+Y2K V2
+Voodoo Trade Base
+EDEBASE
+Unlimited Network
+Covo V2
+YFX
+Lexer Markets
+LionDEX
+Metavault.Trade
+Metavault Derivatives V2
+Uniswap V3
+Curve DEX
+PancakeSwap AMM
+Raydium AMM
+Uniswap V2
+Aerodrome Slipstream
+Balancer V2
+SUNSwap V1
+PancakeSwap AMM V3
+Aerodrome V1
+SUNSwap V2
+Orca
+VVS Standard
+SUNSwap V3
+Cetus AMM
+Thorchain
+SushiSwap
+Quickswap Dex
+iZiSwap
+Balancer V3
+Joe V2.2
+Bluefin AMM
+Beets DEX
+Camelot V3
+SwapX Algebra
+Cellana Finance
+Shadow Exchange CLMM
+Beets DEX V3
+ThalaSwap V2
+Ekubo
+PancakeSwap StableSwap
+Quickswap V3
+Gyroscope Protocol
+Pharaoh CL
+Joe DEX
+Joe V2.1
+DODO AMM
+ThalaSwap
+SushiSwap V3
+Jellyverse
+Maverick V2
+Shadow Exchange Legacy
+WAGMI
+Chainflip
+Saber
+ShibaSwap
+Camelot V2
+Balancer V1
+Balanced Exchange
+Ferro
+SpookySwap V2
+ApeSwap AMM
+BurrBear
+Alien Base V2
+Pharaoh Legacy
+SmarDex
+Wombat Exchange
+Uniswap V1
+SwapX V2
+Pangolin
+Clipper
+BaseSwap V2
+Equalizer Exchange
+Verse
+Kinetix AMM V3
+Integral
+Solidly V3
+RadioShack
+Maverick V1
+2THICK
+KyberSwap Classic
+Ramses CL
+Defi Swap
+Honeyswap
+KIM Exchange V3
+SilverSwap
+DefiPlaza
+Elk
+BaseX
+ArcherSwap
+Joe V2
+Scale
+WOOFi Swap
+Holdstation Swap
+Thick
+SwapBased AMM
+KIM Exchange V2
+KyberSwap Elastic
+DackieSwap V3
+Apex DeFi
+Pearl V1
+Chronos V1
+Retro
+Lifinity V1
+DackieSwap V2
+Solidly V2
+SquadSwap V2
+Arbitrum Exchange V2
+Arbitrum Exchange V3
+Zyberswap V3
+SolidLizard Dex
+Horiza
+Zyberswap AMM
+Embr Finance
+Auragi Finance
+Archly V1
+SquadSwap V3
+ZyberSwap Stableswap
+Viridian Exchange
+dexSWAP
+Hydrometer Finance
+Kinetix AMM V2
+Monocerus
+Beralis V3
+Houdini Swap
+Zeebu
+Illuvium
+Reserve Protocol
+dHEDGE
+PinkSale
+Juicebox V1
+AAVE V3
+JustLend
+Morpho Blue
+Venus Core Pool
+Kamino Lend
+Euler V2
+Maple
+Compound V2
+NAVI Lending
+AAVE V2
+Benqi Lending
+Save
+Scallop Lend
+Moonwell
+Gearbox
+Silo V1
+Iron Bank
+Strike
+Impermax V2
+Tarot
+Joe Lend
+Radiant V2
+Yamfore
+Sonne Finance
+Polter Finance
+Extra Finance Leverage Farming
+Lido
+Jito
+Rocket Pool
+Marinade Liquid Staking
+StakeWise V2
+Stader
+Liquid Collective
+Benqi Staked Avax
+Beets LST
+Bifrost Liquid Staking
+Stride
+Kamino Liquidity
+Gamma
+Bunni V2
+X2Y2
+Blur Bids
+Sudoswap V2
+Sudoswap V1
+LooksRare
+BlueMove Staking
+ether.fi Liquid
+Hegic
+SOFA.org
+Stryke CLAMM
+Premia V3
+Derive V1
+Premia V2
+Buffer Finance
+OptionBlitz
+Ribbon
+Step Finance
+BetSwirl
+Tornado Cash
+Railgun
+0x0.ai
+Ondo Finance
+Usual
+Paxos Gold
+Tangible RWA
+Zivoe
+Goldfinch
+Eggs Finance
+Furucombo
+GET Protocol
+Meowl
+Bank AI
+friend.tech V1
+FriendRoom
+Marinade Native
+Alchemix
+Synthetix v1+v2
+PAAL AI
+UNCX Network V2
+Pendle
+Convex Finance
+Aura
+Equilibria
+Penpie
+StakeDAO
+VaultCraft
+Concentrator
+Beradrome
+D2 Finance
+Radpie
+Vaultka
+Liquis
+Wompie
+Colony
+Factor V2
+Manga FI
+GND Protocol
+Sharpe Magnum
+Caviar Tangible
+Ducata
+Beefy
+Instadapp Lite
+Yield Yak Aggregator
+Goat Protocol
+BounceBit CeDeFi Yield
+WBTC
+Allbridge Core
+deBridge
+Beraborrow
+Defi Saver
+Summer.fi Pro
+World Chain
+K2
+Hemi
+Ancient8
+Redstone
+Paradex
+KiloEx
+MYX Finance
+Contango V2
+SynFutures V3
+Surf Protocol
+Apex Omni
+Avantis
+FlashTrade
+Ostium
+Merkle Trade
+IntentX
+edgeX
+Satori Perp
+TsunamiX
+Thetis Perps
+Filament V1
+DESK Perps
+JOJO
+FWX Derivatives
+Crypto Valley Exchange
+BMX Freestyle
+AGDEX
+Substance Exchange
+SATOSHI PERPS
+Predy V5
+Predy V3.2
+BLEX
+SpaceWhale
+Gambit Trade
+EMDX
+Filament Beta
+Kodiak V3
+Meteora DLMM
+BEX
+Meteora pools
+Sailor
+PumpSwap
+Frax Swap
+Dragon Swap V3
+Splash Protocol
+Hyperion
+Magma
+STEAMM
+Glyph V4
+Kodiak V2
+Invariant
+stabble
+Carbon Defi
+Metropolis DLMM
+Metropolis AMM
+Econia
+Ekubo EVM
+Ethervista
+Haedal AMM Protocol
+Nabla Finance
+Wasabee
+Dragon Swap V2
+MooniSwap
+Sushi Trident
+Infusion
+FWX DEX
+DerpDEX
+Sobal
+Glyph V2
+VaporDex V2
+FeeFree
+E3
+MM Stableswap Polygon
+Haedal Vault
+BCraft
+SunPump
+flaunch
+Emojicoin.fun
+GraFun
+g8keep
+Ape.Store
+Degen Express
+wen markets
+SparkLend
+Fluid Lending
+Dolomite
+Suilend
+Yei Finance
+Echelon Market
+Sumer.money
+Resupply
+Flux Finance
+Superposition
+Rain.fi
+Shoebill V2
+Size Credit
+MachFi
+Levvy for Tokens
+Keom Protocol
+Wise Lending V2
+Zarban
+Chedda Finance
+0vix
+Vicuna Leveraged Farming
+Mellow LRT
+Infrared Finance
+Frax Ether
+StakeStone STONE
+Stability
+Arrakis V2
+Levvy for NFTs
+Llamalend
+Veda
+Umoja Synths
+Valorem
+Hedgey
+Sablier Legacy
+Polymarket
+DoubleUp
+Azuro
+Privacy Pools
+Franklin Templeton
+Hashnote USYC
+Spiko
+OpenEden
+Superstate USTB
+Danogo
+The Arena
+Tribe.run
+PostTechSoFi
+time.fun
+cipher.rip
+Chainchat
+scoop
+SquaDeFi
+LSP.Finance
+GoPlus Locker V2
+Wildcat Protocol
+Royco Protocol
+Toros
+Amphor
+Napier
+CLever
+Tea-Fi
+Liquid Bolt
+CIAN Yield Layer
+Rings
+vfat.io
+Origin Dollar
+Zunami Protocol
+maxAPY

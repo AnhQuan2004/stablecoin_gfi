@@ -130,536 +130,110 @@ def get_protocol_fees(protocol):
             "data": {"error": str(e)}
         }), 500
 
-@app.route('/api/fees/protocols/all', methods=['GET'])
-def get_all_protocols_fees():
-    """API endpoint để lấy dữ liệu fees cho nhiều protocol từ file."""
-    # Danh sách protocol có thể được cung cấp qua query parameter
-    protocols_param = request.args.get('protocols')
-    protocol = ["Vader AI",
-"Frax",
-"Frax FPI",
-"Snake Finance",
-"Ethena USDe",
-"Stables Labs USDX",
-"SolvBTC",
-"Garden",
-"Allbridge Classic",
-"Sky Lending",
-"Liquity V1",
-"crvUSD",
-"Inverse Finance FiRM",
-"fx Protocol",
-"Orby Network",
-"Abracadabra Spell",
-"Angle",
-"Thala CDP",
-"Liquity V2",
-"QiDao",
-"Lybra V2",
-"Threshold thUSD",
-"Stout",
-"Lybra V1",
-"PrismaLST",
-"Teddy Cash",
-"Vesta Finance",
-"Fraxtal",
-"Gravity",
-"Immutable zkEVM",
-"Kroma",
-"Stargate V2",
-"Across",
-"Stargate V1",
-"Synapse",
-"Hop Protocol",
-"SideShift",
-"Firebird",
-"Paraswap",
-"Jupiter Perpetual Exchange",
-"Drift Trade",
-"GMX V2 Perps",
-"GMX V1",
-"Synthetix V3",
-"Derive V2",
-"Vertex Perps",
-"dYdX V3",
-"APX Finance",
-"ApeX Pro",
-"Gains Network",
-"Orderly Perps",
-"Fulcrom Perps",
-"Bluefin Perps",
-"MUX Perps",
-"Adrena Protocol",
-"HMX",
-"Perpetual Protocol",
-"BMX Classic Perps",
-"Flex Perpetuals",
-"Level Perps",
-"YFX V4",
-"Amped Finance",
-"LogX V2",
-"Sudo Finance",
-"Mummy Finance",
-"Pingu Exchange",
-"Javsphere",
-"Vela Exchange",
-"KTX Perps",
-"El Dorado Exchange",
-"UniDex Perp",
-"Y2K V1",
-"SOBAX",
-"Equation V3",
-"Equation V1",
-"Cryptex V2",
-"Xena Finance",
-"Mango Markets V4 Perps",
-"Equation V2",
-"Nether.Fi",
-"Y2K V2",
-"Voodoo Trade Base",
-"EDEBASE",
-"Unlimited Network",
-"Covo V2",
-"YFX",
-"Lexer Markets",
-"LionDEX",
-"Metavault.Trade",
-"Metavault Derivatives V2",
-"Uniswap V3",
-"Curve DEX",
-"PancakeSwap AMM",
-"Raydium AMM",
-"Uniswap V2",
-"Aerodrome Slipstream",
-"Balancer V2",
-"SUNSwap V1",
-"PancakeSwap AMM V3",
-"Aerodrome V1",
-"SUNSwap V2",
-"Orca",
-"VVS Standard",
-"SUNSwap V3",
-"Cetus AMM",
-"Thorchain",
-"SushiSwap",
-"Quickswap Dex",
-"iZiSwap",
-"Balancer V3",
-"Joe V2.2",
-"Bluefin AMM",
-"Beets DEX",
-"Camelot V3",
-"SwapX Algebra",
-"Cellana Finance",
-"Shadow Exchange CLMM",
-"Beets DEX V3",
-"ThalaSwap V2",
-"Ekubo",
-"PancakeSwap StableSwap",
-"Quickswap V3",
-"Gyroscope Protocol",
-"Pharaoh CL",
-"Joe DEX",
-"Joe V2.1",
-"DODO AMM",
-"ThalaSwap",
-"SushiSwap V3",
-"Jellyverse",
-"Maverick V2",
-"Shadow Exchange Legacy",
-"WAGMI",
-"Chainflip",
-"Saber",
-"ShibaSwap",
-"Camelot V2",
-"Balancer V1",
-"Balanced Exchange",
-"Ferro",
-"SpookySwap V2",
-"ApeSwap AMM",
-"BurrBear",
-"Alien Base V2",
-"Pharaoh Legacy",
-"SmarDex",
-"Wombat Exchange",
-"Uniswap V1",
-"SwapX V2",
-"Pangolin",
-"Clipper",
-"BaseSwap V2",
-"Equalizer Exchange",
-"Verse",
-"Kinetix AMM V3",
-"Integral",
-"Solidly V3",
-"RadioShack",
-"Maverick V1",
-"2THICK",
-"KyberSwap Classic",
-"Ramses CL",
-"Defi Swap",
-"Honeyswap",
-"KIM Exchange V3",
-"SilverSwap",
-"DefiPlaza",
-"Elk",
-"BaseX",
-"ArcherSwap",
-"Joe V2",
-"Scale",
-"WOOFi Swap",
-"Holdstation Swap",
-"Thick",
-"SwapBased AMM",
-"KIM Exchange V2",
-"KyberSwap Elastic",
-"DackieSwap V3",
-"Apex DeFi",
-"Pearl V1",
-"Chronos V1",
-"Retro",
-"Lifinity V1",
-"DackieSwap V2",
-"Solidly V2",
-"SquadSwap V2",
-"Arbitrum Exchange V2",
-"Arbitrum Exchange V3",
-"Zyberswap V3",
-"SolidLizard Dex",
-"Horiza",
-"Zyberswap AMM",
-"Embr Finance",
-"Auragi Finance",
-"Archly V1",
-"SquadSwap V3",
-"ZyberSwap Stableswap",
-"Viridian Exchange",
-"dexSWAP",
-"Hydrometer Finance",
-"Kinetix AMM V2",
-"Monocerus",
-"Beralis V3",
-"Houdini Swap",
-"Zeebu",
-"Illuvium",
-"Reserve Protocol",
-"dHEDGE",
-"PinkSale",
-"Juicebox V1",
-"AAVE V3",
-"JustLend",
-"Morpho Blue",
-"Venus Core Pool",
-"Kamino Lend",
-"Euler V2",
-"Maple",
-"Compound V2",
-"NAVI Lending",
-"AAVE V2",
-"Benqi Lending",
-"Save",
-"Scallop Lend",
-"Moonwell",
-"Gearbox",
-"Silo V1",
-"Iron Bank",
-"Strike",
-"Impermax V2",
-"Tarot",
-"Joe Lend",
-"Radiant V2",
-"Yamfore",
-"Sonne Finance",
-"Polter Finance",
-"Extra Finance Leverage Farming",
-"Lido",
-"Jito",
-"Rocket Pool",
-"Marinade Liquid Staking",
-"StakeWise V2",
-"Stader",
-"Liquid Collective",
-"Benqi Staked Avax",
-"Beets LST",
-"Bifrost Liquid Staking",
-"Stride",
-"Kamino Liquidity",
-"Gamma",
-"Bunni V2",
-"X2Y2",
-"Blur Bids",
-"Sudoswap V2",
-"Sudoswap V1",
-"LooksRare",
-"BlueMove Staking",
-"ether.fi Liquid",
-"Hegic",
-"SOFA.org",
-"Stryke CLAMM",
-"Premia V3",
-"Derive V1",
-"Premia V2",
-"Buffer Finance",
-"OptionBlitz",
-"Ribbon",
-"Step Finance",
-"BetSwirl",
-"Tornado Cash",
-"Railgun",
-"0x0.ai",
-"Ondo Finance",
-"Usual",
-"Paxos Gold",
-"Tangible RWA",
-"Zivoe",
-"Goldfinch",
-"Eggs Finance",
-"Furucombo",
-"GET Protocol",
-"Meowl",
-"Bank AI",
-"friend.tech V1",
-"FriendRoom",
-"Marinade Native",
-"Alchemix",
-"Synthetix v1+v2",
-"PAAL AI",
-"UNCX Network V2",
-"Pendle",
-"Convex Finance",
-"Aura",
-"Equilibria",
-"Penpie",
-"StakeDAO",
-"VaultCraft",
-"Concentrator",
-"Beradrome",
-"D2 Finance",
-"Radpie",
-"Vaultka",
-"Liquis",
-"Wompie",
-"Colony",
-"Factor V2",
-"Manga FI",
-"GND Protocol",
-"Sharpe Magnum",
-"Caviar Tangible",
-"Ducata",
-"Beefy",
-"Instadapp Lite",
-"Yield Yak Aggregator",
-"Goat Protocol",
-"BounceBit CeDeFi Yield",
-"WBTC",
-"Allbridge Core",
-"deBridge",
-"Beraborrow",
-"Defi Saver",
-"Summer.fi Pro",
-"World Chain",
-"K2",
-"Hemi",
-"Ancient8",
-"Redstone",
-"Paradex",
-"KiloEx",
-"MYX Finance",
-"Contango V2",
-"SynFutures V3",
-"Surf Protocol",
-"Apex Omni",
-"Avantis",
-"FlashTrade",
-"Ostium",
-"Merkle Trade",
-"IntentX",
-"edgeX",
-"Satori Perp",
-"TsunamiX",
-"Thetis Perps",
-"Filament V1",
-"DESK Perps",
-"JOJO",
-"FWX Derivatives",
-"Crypto Valley Exchange",
-"BMX Freestyle",
-"AGDEX",
-"Substance Exchange",
-"SATOSHI PERPS",
-"Predy V5",
-"Predy V3.2",
-"BLEX",
-"SpaceWhale",
-"Gambit Trade",
-"EMDX",
-"Filament Beta",
-"Kodiak V3",
-"Meteora DLMM",
-"BEX",
-"Meteora pools",
-"Sailor",
-"PumpSwap",
-"Frax Swap",
-"Dragon Swap V3",
-"Splash Protocol",
-"Hyperion",
-"Magma",
-"STEAMM",
-"Glyph V4",
-"Kodiak V2",
-"Invariant",
-"stabble",
-"Carbon Defi",
-"Metropolis DLMM",
-"Metropolis AMM",
-"Econia",
-"Ekubo EVM",
-"Ethervista",
-"Haedal AMM Protocol",
-"Nabla Finance",
-"Wasabee",
-"Dragon Swap V2",
-"MooniSwap",
-"Sushi Trident",
-"Infusion",
-"FWX DEX",
-"DerpDEX",
-"Sobal",
-"Glyph V2",
-"VaporDex V2",
-"FeeFree",
-"E3",
-"MM Stableswap Polygon",
-"Haedal Vault",
-"BCraft",
-"SunPump",
-"flaunch",
-"Emojicoin.fun",
-"GraFun",
-"g8keep",
-"Ape.Store",
-"Degen Express",
-"wen markets",
-"SparkLend",
-"Fluid Lending",
-"Dolomite",
-"Suilend",
-"Yei Finance",
-"Echelon Market",
-"Sumer.money",
-"Resupply",
-"Flux Finance",
-"Superposition",
-"Rain.fi",
-"Shoebill V2",
-"Size Credit",
-"MachFi",
-"Levvy for Tokens",
-"Keom Protocol",
-"Wise Lending V2",
-"Zarban",
-"Chedda Finance",
-"0vix",
-"Vicuna Leveraged Farming",
-"Mellow LRT",
-"Infrared Finance",
-"Frax Ether",
-"StakeStone STONE",
-"Stability",
-"Arrakis V2",
-"Levvy for NFTs",
-"Llamalend",
-"Veda",
-"Umoja Synths",
-"Valorem",
-"Hedgey",
-"Sablier Legacy",
-"Polymarket",
-"DoubleUp",
-"Azuro",
-"Privacy Pools",
-"Franklin Templeton",
-"Hashnote USYC",
-"Spiko",
-"OpenEden",
-"Superstate USTB",
-"Danogo",
-"The Arena",
-"Tribe.run",
-"PostTechSoFi",
-"time.fun",
-"cipher.rip",
-"Chainchat",
-"scoop",
-"SquaDeFi",
-"LSP.Finance",
-"GoPlus Locker V2",
-"Wildcat Protocol",
-"Royco Protocol",
-"Toros",
-"Amphor",
-"Napier",
-"CLever",
-"Tea-Fi",
-"Liquid Bolt",
-"CIAN Yield Layer",
-"Rings",
-"vfat.io",
-"Origin Dollar",
-"Zunami Protocol",
-"maxAPY"
-                ]
+# @app.route('/api/fees/protocols/all', methods=['GET'])
+# def get_all_protocols_fees():
+#     """API endpoint để lấy dữ liệu fees cho nhiều protocol từ file."""
+#     # Danh sách protocol có thể được cung cấp qua query parameter
+#     protocols_param = request.args.get('protocols')
+#     if protocols_param:
+#         # Nếu có danh sách protocol được cung cấp qua query parameter
+#         protocols = [p.strip() for p in protocols_param.split(',')]
+#     else:
+#         # Nếu không có, thử đọc từ file
+#         try:
+#             with open('./working_protocols.txt', 'r') as f:
+#                 protocols = [line.strip() for line in f if line.strip()]
+#         except FileNotFoundError:
+#             return jsonify({"error": "working_protocols.txt file not found and no protocols parameter provided"}), 400
     
+#     if not protocols:
+#         return jsonify({"error": "No protocols specified"}), 400
+    
+#     total_protocols = len(protocols)
+#     app.logger.info(f"Testing API for {total_protocols} protocols")
+    
+#     # Danh sách kết quả
+#     result_list = []
+    
+#     # Giới hạn số lượng protocol đồng thời để tránh quá tải API
+#     max_workers = min(10, total_protocols)
+    
+#     # Sử dụng ThreadPoolExecutor để thực hiện song song
+#     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+#         future_to_protocol = {
+#             executor.submit(get_protocol_data, protocol): protocol 
+#             for protocol in protocols
+#         }
+        
+#         count = 0
+#         for future in concurrent.futures.as_completed(future_to_protocol):
+#             protocol = future_to_protocol[future]
+#             count += 1
+            
+#             # Log tiến trình sau mỗi 10 protocol
+#             if count % 10 == 0 or count == total_protocols:
+#                 app.logger.info(f"Progress: {count}/{total_protocols}")
+            
+#             try:
+#                 result = future.result()
+#                 result_list.append(result)
+#             except Exception as e:
+#                 app.logger.error(f"Error processing protocol {protocol}: {str(e)}")
+#                 result_list.append({
+#                     "protocol": protocol,
+#                     "data": {"error": str(e)}
+#                 })
+    
+#     return jsonify(result_list)
+
+@app.route('/api/fees/protocols/all', methods=['GET'])
+def get_all_protocols_fees_paginated():
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 20))
+    protocols_param = request.args.get('protocols')
+
     if protocols_param:
-        # Nếu có danh sách protocol được cung cấp qua query parameter
         protocols = [p.strip() for p in protocols_param.split(',')]
     else:
-        # Nếu không có, thử đọc từ file
         try:
-            protocols = protocol
+            with open('./working_protocols.txt', 'r') as f:
+                protocols = [line.strip() for line in f if line.strip()]
         except FileNotFoundError:
-            return jsonify({"error": "protocols.txt file not found and no protocols parameter provided"}), 400
-    
+            return jsonify({"error": "working_protocols.txt not found and no protocols param"}), 400
+
     if not protocols:
         return jsonify({"error": "No protocols specified"}), 400
-    
+
     total_protocols = len(protocols)
-    app.logger.info(f"Testing API for {total_protocols} protocols")
-    
-    # Danh sách kết quả
+    start = (page - 1) * limit
+    end = start + limit
+    selected_protocols = protocols[start:end]
+
+    app.logger.info(f"Processing {len(selected_protocols)} protocols (page {page})")
     result_list = []
-    
-    # Giới hạn số lượng protocol đồng thời để tránh quá tải API
-    max_workers = min(10, total_protocols)
-    
-    # Sử dụng ThreadPoolExecutor để thực hiện song song
+
+    max_workers = min(10, len(selected_protocols))
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_protocol = {
             executor.submit(get_protocol_data, protocol): protocol 
-            for protocol in protocols
+            for protocol in selected_protocols
         }
-        
-        count = 0
+
         for future in concurrent.futures.as_completed(future_to_protocol):
             protocol = future_to_protocol[future]
-            count += 1
-            
-            # Log tiến trình sau mỗi 10 protocol
-            if count % 10 == 0 or count == total_protocols:
-                app.logger.info(f"Progress: {count}/{total_protocols}")
-            
             try:
                 result = future.result()
                 result_list.append(result)
             except Exception as e:
-                app.logger.error(f"Error processing protocol {protocol}: {str(e)}")
-                result_list.append({
-                    "protocol": protocol,
-                    "data": {"error": str(e)}
-                })
-    
-    return jsonify(result_list)
+                result_list.append({"protocol": protocol, "data": {"error": str(e)}})
+
+    return jsonify({
+        "page": page,
+        "limit": limit,
+        "total": total_protocols,
+        "data": result_list
+    })
+
 
 def get_protocol_data(protocol):
     """Hàm để lấy dữ liệu của một protocol."""
@@ -700,18 +274,48 @@ def get_stablecoins_for_chain(chain_id):
     except requests.exceptions.RequestException as e:
         return jsonify({"error": f"Error fetching data from API: {str(e)}"}), 500
 
-@app.route('/api/stablecoins/all', methods=['GET'])
-def get_all_stablecoins():
-    """API endpoint to get stablecoins data for all chains."""
-    all_data = {"chains": []}
+# @app.route('/api/stablecoins/all', methods=['GET'])
+# def get_all_stablecoins():
+#     """API endpoint to get stablecoins data for all chains."""
+#     all_data = {"chains": []}
     
-    # Sử dụng ThreadPoolExecutor để lấy dữ liệu song song
+#     # Sử dụng ThreadPoolExecutor để lấy dữ liệu song song
+#     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+#         future_to_chain = {
+#             executor.submit(requests.get, f"{BASE_API_URL}/stablecoins/{chain}"): chain 
+#             for chain in CHAINS
+#         }
+        
+#         for future in concurrent.futures.as_completed(future_to_chain):
+#             chain = future_to_chain[future]
+#             try:
+#                 response = future.result()
+#                 if response.status_code == 200:
+#                     chain_data = {"chain": chain, "data": response.json()}
+#                     all_data["chains"].append(chain_data)
+#                 else:
+#                     print(f"Error fetching data for {chain}: {response.status_code}")
+#             except Exception as e:
+#                 print(f"Error fetching data for {chain}: {e}")
+    
+#     return jsonify(all_data)
+
+@app.route('/api/stablecoins/all', methods=['GET'])
+def get_all_stablecoins_paginated():
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 5))
+    total_chains = len(CHAINS)
+    start = (page - 1) * limit
+    end = start + limit
+    selected_chains = CHAINS[start:end]
+
+    all_data = {"chains": []}
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         future_to_chain = {
             executor.submit(requests.get, f"{BASE_API_URL}/stablecoins/{chain}"): chain 
-            for chain in CHAINS
+            for chain in selected_chains
         }
-        
+
         for future in concurrent.futures.as_completed(future_to_chain):
             chain = future_to_chain[future]
             try:
@@ -720,11 +324,17 @@ def get_all_stablecoins():
                     chain_data = {"chain": chain, "data": response.json()}
                     all_data["chains"].append(chain_data)
                 else:
-                    print(f"Error fetching data for {chain}: {response.status_code}")
+                    all_data["chains"].append({"chain": chain, "error": f"Status {response.status_code}"})
             except Exception as e:
-                print(f"Error fetching data for {chain}: {e}")
-    
-    return jsonify(all_data)
+                all_data["chains"].append({"chain": chain, "error": str(e)})
+
+    return jsonify({
+        "page": page,
+        "limit": limit,
+        "total": total_chains,
+        "data": all_data
+    })
+
 
 @app.route('/api/tvl/<chain_id>', methods=['GET'])
 def get_tvl_for_chain(chain_id):
@@ -740,50 +350,100 @@ def get_tvl_for_chain(chain_id):
     except requests.exceptions.RequestException as e:
         return jsonify({"error": f"Error fetching data from API: {str(e)}"}), 500
 
-@app.route('/api/tvl/all', methods=['GET'])
-def get_all_tvl():
-    """API endpoint to get TVL data for all chains."""
-    all_data = {"chains": []}
+# @app.route('/api/tvl/all', methods=['GET'])
+# def get_all_tvl():
+#     """API endpoint to get TVL data for all chains."""
+#     all_data = {"chains": []}
     
-    # Sử dụng ThreadPoolExecutor để lấy dữ liệu song song
+#     # Sử dụng ThreadPoolExecutor để lấy dữ liệu song song
+#     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+#         future_to_chain = {
+#             executor.submit(requests.get, f"{BASE_API_URL}/tvl/{chain}"): chain 
+#             for chain in CHAINS
+#         }
+        
+#         for future in concurrent.futures.as_completed(future_to_chain):
+#             chain = future_to_chain[future]
+#             try:
+#                 response = future.result()
+#                 if response.status_code == 200:
+#                     # Format lại dữ liệu TVL theo yêu cầu
+#                     raw_data = response.json()
+#                     formatted_data = []
+                    
+#                     for item in raw_data:
+#                         # Xử lý date thành format 2025-MM-DD
+#                         try:
+#                             import datetime
+#                             date_unix = int(item.get('date', 0))
+#                             date_obj = datetime.datetime.fromtimestamp(date_unix)
+#                             date_str = f"2025-{date_obj.month:02d}-{date_obj.day:02d}"
+                            
+#                             formatted_data.append({
+#                                 "date": date_str,
+#                                 "tvl": item.get('tvl', 0)
+#                             })
+#                         except Exception as e:
+#                             print(f"Error formatting date for {chain}: {e}")
+                    
+#                     chain_data = {"chain": chain, "history": formatted_data}
+#                     all_data["chains"].append(chain_data)
+#                 else:
+#                     print(f"Error fetching data for {chain}: {response.status_code}")
+#             except Exception as e:
+#                 print(f"Error fetching data for {chain}: {e}")
+    
+#     return jsonify(all_data)
+
+@app.route('/api/tvl/all', methods=['GET'])
+def get_all_tvl_paginated():
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 5))
+    total_chains = len(CHAINS)
+    start = (page - 1) * limit
+    end = start + limit
+    selected_chains = CHAINS[start:end]
+
+    all_data = {"chains": []}
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         future_to_chain = {
-            executor.submit(requests.get, f"{BASE_API_URL}/tvl/{chain}"): chain 
-            for chain in CHAINS
+            executor.submit(requests.get, f"{BASE_API_URL}/tvl/{chain}"): chain
+            for chain in selected_chains
         }
-        
+
         for future in concurrent.futures.as_completed(future_to_chain):
             chain = future_to_chain[future]
             try:
                 response = future.result()
                 if response.status_code == 200:
-                    # Format lại dữ liệu TVL theo yêu cầu
                     raw_data = response.json()
                     formatted_data = []
-                    
                     for item in raw_data:
-                        # Xử lý date thành format 2025-MM-DD
                         try:
                             import datetime
                             date_unix = int(item.get('date', 0))
                             date_obj = datetime.datetime.fromtimestamp(date_unix)
                             date_str = f"2025-{date_obj.month:02d}-{date_obj.day:02d}"
-                            
                             formatted_data.append({
                                 "date": date_str,
                                 "tvl": item.get('tvl', 0)
                             })
                         except Exception as e:
-                            print(f"Error formatting date for {chain}: {e}")
-                    
-                    chain_data = {"chain": chain, "history": formatted_data}
-                    all_data["chains"].append(chain_data)
+                            formatted_data.append({"error": str(e)})
+                    all_data["chains"].append({"chain": chain, "history": formatted_data})
                 else:
-                    print(f"Error fetching data for {chain}: {response.status_code}")
+                    all_data["chains"].append({"chain": chain, "error": f"Status {response.status_code}"})
             except Exception as e:
-                print(f"Error fetching data for {chain}: {e}")
-    
-    return jsonify(all_data)
+                all_data["chains"].append({"chain": chain, "error": str(e)})
+
+    return jsonify({
+        "page": page,
+        "limit": limit,
+        "total": total_chains,
+        "data": all_data
+    })
+
 
 @app.route('/api/dexs/<chain_id>', methods=['GET'])
 def get_dexs_for_chain(chain_id):
@@ -806,50 +466,92 @@ def get_dexs_for_chain(chain_id):
         except Exception as fallback_e:
             return jsonify({"error": f"Error fetching data from both APIs: {str(e)}, fallback: {str(fallback_e)}"}), 500
 
-@app.route('/api/dexs/all', methods=['GET'])
-def get_all_dexs():
-    """API endpoint to get DEX data for all chains using the llama.fi API."""
-    result = {}
+# @app.route('/api/dexs/all', methods=['GET'])
+# def get_all_dexs():
+#     """API endpoint to get DEX data for all chains using the llama.fi API."""
+#     result = {}
     
-    # Sử dụng ThreadPoolExecutor để lấy dữ liệu song song
+#     # Sử dụng ThreadPoolExecutor để lấy dữ liệu song song
+#     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+#         future_to_chain = {
+#             executor.submit(
+#                 requests.get, 
+#                 f"{LLAMA_API_URL}/overview/dexs/{chain}?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=false&dataType=dailyVolume"
+#             ): chain 
+#             for chain in CHAINS
+#         }
+        
+#         for future in concurrent.futures.as_completed(future_to_chain):
+#             chain = future_to_chain[future]
+#             try:
+#                 response = future.result()
+#                 if response.status_code == 200:
+#                     data = response.json()
+#                     # Lấy các trường theo yêu cầu
+#                     result[chain] = {
+#                         "totalDataChart": data.get("totalDataChart", []),
+#                         "totalDataChartBreakdown": data.get("totalDataChartBreakdown", {})
+#                     }
+#                 else:
+#                     print(f"Error fetching data for {chain}: {response.status_code}")
+#                     # Thử fallback API
+#                     try:
+#                         fallback_url = f"{BASE_API_URL}/dexs/{chain}"
+#                         fallback_response = requests.get(fallback_url)
+#                         if fallback_response.status_code == 200:
+#                             fallback_data = fallback_response.json()
+#                             result[chain] = {
+#                                 "totalDataChart": fallback_data.get("totalDataChart", []),
+#                                 "totalDataChartBreakdown": fallback_data.get("totalDataChartBreakdown", {})
+#                             }
+#                     except Exception as fallback_e:
+#                         print(f"Fallback error for {chain}: {fallback_e}")
+#             except Exception as e:
+#                 print(f"Error fetching data for {chain}: {e}")
+    
+#     return jsonify(result)
+
+@app.route('/api/dexs/all', methods=['GET'])
+def get_all_dexs_paginated():
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 5))
+    total_chains = len(CHAINS)
+    start = (page - 1) * limit
+    end = start + limit
+    selected_chains = CHAINS[start:end]
+
+    result = {}
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
         future_to_chain = {
             executor.submit(
                 requests.get, 
                 f"{LLAMA_API_URL}/overview/dexs/{chain}?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=false&dataType=dailyVolume"
-            ): chain 
-            for chain in CHAINS
+            ): chain for chain in selected_chains
         }
-        
+
         for future in concurrent.futures.as_completed(future_to_chain):
             chain = future_to_chain[future]
             try:
                 response = future.result()
                 if response.status_code == 200:
                     data = response.json()
-                    # Lấy các trường theo yêu cầu
                     result[chain] = {
                         "totalDataChart": data.get("totalDataChart", []),
                         "totalDataChartBreakdown": data.get("totalDataChartBreakdown", {})
                     }
                 else:
-                    print(f"Error fetching data for {chain}: {response.status_code}")
-                    # Thử fallback API
-                    try:
-                        fallback_url = f"{BASE_API_URL}/dexs/{chain}"
-                        fallback_response = requests.get(fallback_url)
-                        if fallback_response.status_code == 200:
-                            fallback_data = fallback_response.json()
-                            result[chain] = {
-                                "totalDataChart": fallback_data.get("totalDataChart", []),
-                                "totalDataChartBreakdown": fallback_data.get("totalDataChartBreakdown", {})
-                            }
-                    except Exception as fallback_e:
-                        print(f"Fallback error for {chain}: {fallback_e}")
+                    result[chain] = {"error": f"Status {response.status_code}"}
             except Exception as e:
-                print(f"Error fetching data for {chain}: {e}")
-    
-    return jsonify(result)
+                result[chain] = {"error": str(e)}
+
+    return jsonify({
+        "page": page,
+        "limit": limit,
+        "total": total_chains,
+        "data": result
+    })
+
 
 @app.route('/api/overview/fees', methods=['GET'])
 def get_fees_overview():
