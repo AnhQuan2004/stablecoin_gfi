@@ -4,10 +4,8 @@ import json
 import concurrent.futures
 import logging
 import os
-from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # Kích hoạt CORS cho tất cả endpoints
 logging.basicConfig(level=logging.INFO)
 
 # Danh sách blockchain
@@ -23,13 +21,9 @@ LLAMA_API_URL = "https://api.llama.fi"
 DUNE_API_URL = "https://api.dune.com/api/v1"
 DUNE_API_KEY = os.environ.get('DUNE_API_KEY', 'mtrULhgGW3gS6LldSlQ28qsnESTAamIq')
 
-@app.route('/api/trending/contracts', methods=['GET', 'OPTIONS'])
+@app.route('/api/trending/contracts', methods=['GET'])
 def get_trending_contracts():
     """API endpoint để lấy dữ liệu trending contracts từ Dune Analytics."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     app.logger.info("Getting trending contracts data from Dune Analytics")
     
     # Query ID cho trending contracts 2.0
@@ -46,23 +40,17 @@ def get_trending_contracts():
         
         # Trả về dữ liệu nguyên bản từ Dune không xử lý gì thêm
         # Sử dụng Response để trả về chính xác nội dung từ API
-        flask_response = Response(response.content, mimetype='application/json')
-        return _corsify_actual_response(flask_response)
+        return Response(response.content, mimetype='application/json')
             
     except requests.exceptions.RequestException as e:
         app.logger.error(f"Error fetching data from Dune API: {str(e)}")
-        error_response = jsonify({
+        return jsonify({
             "error": f"Error fetching data from Dune API: {str(e)}"
-        })
-        return _corsify_actual_response(error_response), 500
+        }), 500
 
-@app.route('/api/binance-net-inflow', methods=['GET', 'OPTIONS'])
+@app.route('/api/binance-net-inflow', methods=['GET'])
 def get_binance_net_inflow():
     """API endpoint để lấy dữ liệu Binance Net Inflow 24h từ Dune Analytics."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     app.logger.info("Getting Binance net inflow data from Dune Analytics")
     
     url = f"{DUNE_API_URL}/endpoints/gfi_research/binance-net-inflow-24h/results"
@@ -75,23 +63,17 @@ def get_binance_net_inflow():
         response.raise_for_status()
         
         # Trả về dữ liệu nguyên bản từ Dune không xử lý gì thêm
-        flask_response = Response(response.content, mimetype='application/json')
-        return _corsify_actual_response(flask_response)
+        return Response(response.content, mimetype='application/json')
             
     except requests.exceptions.RequestException as e:
         app.logger.error(f"Error fetching Binance net inflow data from Dune API: {str(e)}")
-        error_response = jsonify({
+        return jsonify({
             "error": f"Error fetching Binance net inflow data from Dune API: {str(e)}"
-        })
-        return _corsify_actual_response(error_response), 500
+        }), 500
 
-@app.route('/api/nft-marketplaces-overview', methods=['GET', 'OPTIONS'])
+@app.route('/api/nft-marketplaces-overview', methods=['GET'])
 def get_nft_marketplaces_overview():
     """API endpoint để lấy dữ liệu NFT Marketplaces Overview từ Dune Analytics."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     app.logger.info("Getting NFT Marketplaces Overview data from Dune Analytics")
     
     url = f"{DUNE_API_URL}/endpoints/gfi_research/nft-marketplaces-overview/results"
@@ -103,23 +85,19 @@ def get_nft_marketplaces_overview():
         response = requests.get(url, params=params)
         response.raise_for_status()
     
-        flask_response = Response(response.content, mimetype='application/json')
-        return _corsify_actual_response(flask_response)
+        return Response(response.content, mimetype='application/json')
 
     except requests.exceptions.RequestException as e:
         app.logger.error(f"Error fetching NFT Marketplaces Overview data from Dune API: {str(e)}")
-        error_response = jsonify({
+        return jsonify({
             "error": f"Error fetching NFT Marketplaces Overview data from Dune API: {str(e)}"
-        })
-        return _corsify_actual_response(error_response), 500
+        }), 500
 
-@app.route('/api/fees/protocol/<protocol>', methods=['GET', 'OPTIONS'])
+
+
+@app.route('/api/fees/protocol/<protocol>', methods=['GET'])
 def get_protocol_fees(protocol):
     """API endpoint để lấy dữ liệu fees của một protocol cụ thể."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     app.logger.info(f"Getting fees data for protocol: {protocol}")
     
     url = f"{LLAMA_API_URL}/summary/fees/{protocol}?dataType=dailyFees"
@@ -141,24 +119,21 @@ def get_protocol_fees(protocol):
             "totalDataChartBreakdown": full_data.get("totalDataChartBreakdown")
         }
         
-        return _corsify_actual_response(jsonify({
+        return jsonify({
             "protocol": protocol,
             "data": filtered_data
-        }))
+        })
     except requests.exceptions.RequestException as e:
         app.logger.error(f"Error fetching API data: {str(e)}")
-        error_response = jsonify({
+        return jsonify({
             "protocol": protocol,
             "data": {"error": str(e)}
-        })
-        return _corsify_actual_response(error_response), 500
+        }), 500
 
-@app.route('/api/fees/protocols/all', methods=['GET', 'OPTIONS'])
+
+
+@app.route('/api/fees/protocols/all', methods=['GET'])
 def get_all_protocols_fees_paginated():
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 20))
     protocols_param = request.args.get('protocols')
@@ -170,12 +145,10 @@ def get_all_protocols_fees_paginated():
             with open('./working_protocols.txt', 'r') as f:
                 protocols = [line.strip() for line in f if line.strip()]
         except FileNotFoundError:
-            error_response = jsonify({"error": "working_protocols.txt not found and no protocols param"})
-            return _corsify_actual_response(error_response), 400
+            return jsonify({"error": "working_protocols.txt not found and no protocols param"}), 400
 
     if not protocols:
-        error_response = jsonify({"error": "No protocols specified"})
-        return _corsify_actual_response(error_response), 400
+        return jsonify({"error": "No protocols specified"}), 400
 
     total_protocols = len(protocols)
     start = (page - 1) * limit
@@ -200,12 +173,13 @@ def get_all_protocols_fees_paginated():
             except Exception as e:
                 result_list.append({"protocol": protocol, "data": {"error": str(e)}})
 
-    return _corsify_actual_response(jsonify({
+    return jsonify({
         "page": page,
         "limit": limit,
         "total": total_protocols,
         "data": result_list
-    }))
+    })
+
 
 def get_protocol_data(protocol):
     """Hàm để lấy dữ liệu của một protocol."""
@@ -232,32 +206,24 @@ def get_protocol_data(protocol):
     except Exception as e:
         return {"protocol": protocol, "data": {"error": str(e)}}
 
-@app.route('/api/stablecoins/<chain_id>', methods=['GET', 'OPTIONS'])
+@app.route('/api/stablecoins/<chain_id>', methods=['GET'])
 def get_stablecoins_for_chain(chain_id):
     """API endpoint to get stablecoins data for a specific chain."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     if chain_id not in CHAINS:
-        error_response = jsonify({"error": f"Invalid chain ID. Supported chains: {', '.join(CHAINS)}"})
-        return _corsify_actual_response(error_response), 400
+        return jsonify({"error": f"Invalid chain ID. Supported chains: {', '.join(CHAINS)}"}), 400
         
     api_url = f"{BASE_API_URL}/stablecoins/{chain_id}"
     try:
         response = requests.get(api_url)
         response.raise_for_status()
-        return _corsify_actual_response(jsonify(response.json()))
+        return jsonify(response.json())
     except requests.exceptions.RequestException as e:
-        error_response = jsonify({"error": f"Error fetching data from API: {str(e)}"})
-        return _corsify_actual_response(error_response), 500
+        return jsonify({"error": f"Error fetching data from API: {str(e)}"}), 500
 
-@app.route('/api/stablecoins/all', methods=['GET', 'OPTIONS'])
+
+
+@app.route('/api/stablecoins/all', methods=['GET'])
 def get_all_stablecoins_paginated():
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 5))
     total_chains = len(CHAINS)
@@ -284,39 +250,32 @@ def get_all_stablecoins_paginated():
             except Exception as e:
                 all_data["chains"].append({"chain": chain, "error": str(e)})
 
-    return _corsify_actual_response(jsonify({
+    return jsonify({
         "page": page,
         "limit": limit,
         "total": total_chains,
         "data": all_data
-    }))
+    })
 
-@app.route('/api/tvl/<chain_id>', methods=['GET', 'OPTIONS'])
+
+@app.route('/api/tvl/<chain_id>', methods=['GET'])
 def get_tvl_for_chain(chain_id):
     """API endpoint to get TVL data for a specific chain."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     if chain_id not in CHAINS:
-        error_response = jsonify({"error": f"Invalid chain ID. Supported chains: {', '.join(CHAINS)}"})
-        return _corsify_actual_response(error_response), 400
+        return jsonify({"error": f"Invalid chain ID. Supported chains: {', '.join(CHAINS)}"}), 400
         
     api_url = f"{BASE_API_URL}/tvl/{chain_id}"
     try:
         response = requests.get(api_url)
         response.raise_for_status()
-        return _corsify_actual_response(jsonify(response.json()))
+        return jsonify(response.json())
     except requests.exceptions.RequestException as e:
-        error_response = jsonify({"error": f"Error fetching data from API: {str(e)}"})
-        return _corsify_actual_response(error_response), 500
+        return jsonify({"error": f"Error fetching data from API: {str(e)}"}), 500
 
-@app.route('/api/tvl/all', methods=['GET', 'OPTIONS'])
+
+
+@app.route('/api/tvl/all', methods=['GET'])
 def get_all_tvl_paginated():
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 5))
     total_chains = len(CHAINS)
@@ -357,46 +316,38 @@ def get_all_tvl_paginated():
             except Exception as e:
                 all_data["chains"].append({"chain": chain, "error": str(e)})
 
-    return _corsify_actual_response(jsonify({
+    return jsonify({
         "page": page,
         "limit": limit,
         "total": total_chains,
         "data": all_data
-    }))
+    })
 
-@app.route('/api/dexs/<chain_id>', methods=['GET', 'OPTIONS'])
+
+@app.route('/api/dexs/<chain_id>', methods=['GET'])
 def get_dexs_for_chain(chain_id):
     """API endpoint to get DEX data for a specific chain using the llama.fi API."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     if chain_id not in CHAINS:
-        error_response = jsonify({"error": f"Invalid chain ID. Supported chains: {', '.join(CHAINS)}"})
-        return _corsify_actual_response(error_response), 400
+        return jsonify({"error": f"Invalid chain ID. Supported chains: {', '.join(CHAINS)}"}), 400
         
     api_url = f"{LLAMA_API_URL}/overview/dexs/{chain_id}?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=false&dataType=dailyVolume"
     try:
         response = requests.get(api_url)
         response.raise_for_status()
-        return _corsify_actual_response(jsonify(response.json()))
+        return jsonify(response.json())
     except requests.exceptions.RequestException as e:
         # Fallback to original API
         try:
             fallback_url = f"{BASE_API_URL}/dexs/{chain_id}"
             fallback_response = requests.get(fallback_url)
             fallback_response.raise_for_status()
-            return _corsify_actual_response(jsonify(fallback_response.json()))
+            return jsonify(fallback_response.json())
         except Exception as fallback_e:
-            error_response = jsonify({"error": f"Error fetching data from both APIs: {str(e)}, fallback: {str(fallback_e)}"})
-            return _corsify_actual_response(error_response), 500
+            return jsonify({"error": f"Error fetching data from both APIs: {str(e)}, fallback: {str(fallback_e)}"}), 500
 
-@app.route('/api/dexs/all', methods=['GET', 'OPTIONS'])
+
+@app.route('/api/dexs/all', methods=['GET'])
 def get_all_dexs_paginated():
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     page = int(request.args.get('page', 1))
     limit = int(request.args.get('limit', 5))
     total_chains = len(CHAINS)
@@ -429,31 +380,27 @@ def get_all_dexs_paginated():
             except Exception as e:
                 result[chain] = {"error": str(e)}
 
-    return _corsify_actual_response(jsonify({
+    return jsonify({
         "page": page,
         "limit": limit,
         "total": total_chains,
         "data": result
-    }))
+    })
 
-@app.route('/api/overview/fees', methods=['GET', 'OPTIONS'])
+
+@app.route('/api/overview/fees', methods=['GET'])
 def get_fees_overview():
     """API endpoint to get fees overview for a specific chain."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     chain = request.args.get("chain")
     if not chain or chain not in CHAINS:
-        error_response = jsonify({"error": f"Invalid or missing chain parameter. Supported chains: {', '.join(CHAINS)}"})
-        return _corsify_actual_response(error_response), 400
+        return jsonify({"error": f"Invalid or missing chain parameter. Supported chains: {', '.join(CHAINS)}"}), 400
         
     api_url = f"{LLAMA_API_URL}/overview/fees/{chain}?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=false"
     try:
         response = requests.get(api_url)
         response.raise_for_status()
         data = response.json()
-        return _corsify_actual_response(jsonify(data.get("totalDataChart", [])))
+        return jsonify(data.get("totalDataChart", []))
     except requests.exceptions.RequestException as e:
         # Fallback to original API
         try:
@@ -461,29 +408,23 @@ def get_fees_overview():
             fallback_response = requests.get(fallback_url)
             fallback_response.raise_for_status()
             fallback_data = fallback_response.json()
-            return _corsify_actual_response(jsonify(fallback_data.get("totalDataChart", [])))
+            return jsonify(fallback_data.get("totalDataChart", []))
         except Exception as fallback_e:
-            error_response = jsonify({"error": f"Error fetching data from both APIs: {str(e)}, fallback: {str(fallback_e)}"})
-            return _corsify_actual_response(error_response), 500
+            return jsonify({"error": f"Error fetching data from both APIs: {str(e)}, fallback: {str(fallback_e)}"}), 500
 
-@app.route('/api/overview/dexs', methods=['GET', 'OPTIONS'])
+@app.route('/api/overview/dexs', methods=['GET'])
 def get_dexs_overview():
     """API endpoint to get DEXs overview for a specific chain."""
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     chain = request.args.get("chain")
     if not chain or chain not in CHAINS:
-        error_response = jsonify({"error": f"Invalid or missing chain parameter. Supported chains: {', '.join(CHAINS)}"})
-        return _corsify_actual_response(error_response), 400
+        return jsonify({"error": f"Invalid or missing chain parameter. Supported chains: {', '.join(CHAINS)}"}), 400
         
     api_url = f"{LLAMA_API_URL}/overview/dexs/{chain}?excludeTotalDataChart=false&excludeTotalDataChartBreakdown=false&dataType=dailyVolume"
     try:
         response = requests.get(api_url)
         response.raise_for_status()
         data = response.json()
-        return _corsify_actual_response(jsonify(data.get("totalDataChart", [])))
+        return jsonify(data.get("totalDataChart", []))
     except requests.exceptions.RequestException as e:
         # Fallback to original API
         try:
@@ -491,18 +432,13 @@ def get_dexs_overview():
             fallback_response = requests.get(fallback_url)
             fallback_response.raise_for_status()
             fallback_data = fallback_response.json()
-            return _corsify_actual_response(jsonify(fallback_data.get("totalDataChart", [])))
+            return jsonify(fallback_data.get("totalDataChart", []))
         except Exception as fallback_e:
-            error_response = jsonify({"error": f"Error fetching data from both APIs: {str(e)}, fallback: {str(fallback_e)}"})
-            return _corsify_actual_response(error_response), 500
+            return jsonify({"error": f"Error fetching data from both APIs: {str(e)}, fallback: {str(fallback_e)}"}), 500
 
-@app.route('/', methods=['GET', 'OPTIONS'])
+@app.route('/', methods=['GET'])
 def home():
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
-    html_content = """
+    return """
     <html>
         <head>
             <title>DeFi Llama API Proxy</title>
@@ -611,19 +547,13 @@ def home():
         </body>
     </html>
     """
-    response = Response(html_content, mimetype='text/html')
-    return _corsify_actual_response(response)
 
-@app.route('/<path:path>', methods=['GET', 'OPTIONS'])
+@app.route('/<path:path>', methods=['GET'])
 def catch_all(path):
     """
     Catch-all route to proxy any other paths directly to the original API.
     This allows proxying any endpoint that might exist on the original API.
     """
-    # Handle preflight OPTIONS request
-    if request.method == 'OPTIONS':
-        return _build_cors_preflight_response()
-        
     api_url = f"{BASE_API_URL}/{path}"
     
     # Forward query parameters
@@ -631,34 +561,9 @@ def catch_all(path):
     
     try:
         response = requests.get(api_url, params=params)
-        return _corsify_actual_response(jsonify(response.json())), response.status_code
+        return jsonify(response.json()), response.status_code
     except Exception as e:
-        error_response = jsonify({"error": f"Error proxying request: {str(e)}"})
-        return _corsify_actual_response(error_response), 500
-
-# Helper functions for CORS support
-def _build_cors_preflight_response():
-    """Build a preflight response for CORS"""
-    response = jsonify({})
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
-    response.headers.add("Access-Control-Allow-Methods", "GET,OPTIONS")
-    response.headers.add("Access-Control-Max-Age", "3600")
-    return response
-
-def _corsify_actual_response(response):
-    """Add CORS headers to an actual response"""
-    if isinstance(response, Response):
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        return response
-    else:
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        return response
+        return jsonify({"error": f"Error proxying request: {str(e)}"}), 500
 
 if __name__ == '__main__':
-    # Get port from environment variable or default to 8080
-    # Cloud Run sets PORT environment variable
-    port = int(os.environ.get('PORT', 8080))
-    
-    # When running in Cloud Run, the host should be 0.0.0.0
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=5000, debug=True)
