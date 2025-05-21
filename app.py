@@ -10,6 +10,23 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Kích hoạt CORS cho tất cả endpoints
 logging.basicConfig(level=logging.INFO)
 
+# Add request logging
+@app.before_request
+def log_request_info():
+    app.logger.info('Request: %s %s', request.method, request.path)
+    app.logger.info('Headers: %s', dict(request.headers))
+    app.logger.info('Args: %s', request.args)
+    if request.is_json:
+        app.logger.info('Body: %s', request.get_json())
+
+# Add response logging
+@app.after_request
+def log_response_info(response):
+    app.logger.info('Response: %s %s', request.method, request.path)
+    app.logger.info('Status: %s', response.status)
+    app.logger.info('Size: %s', response.calculate_content_length())
+    return response
+
 # Danh sách blockchain
 CHAINS = [
     "Ethereum", "Solana", "Near", "Bitcoin", "Sui", 
