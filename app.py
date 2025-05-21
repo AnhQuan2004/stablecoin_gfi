@@ -667,9 +667,15 @@ def _corsify_actual_response(response):
     """Add CORS headers to an actual response"""
     if isinstance(response, Response):
         response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+        response.headers.add("Access-Control-Allow-Methods", "GET,OPTIONS")
+        response.headers.add("Access-Control-Max-Age", "3600")
         return response
     else:
         response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+        response.headers.add("Access-Control-Allow-Methods", "GET,OPTIONS")
+        response.headers.add("Access-Control-Max-Age", "3600")
         return response
 
 if __name__ == '__main__':
